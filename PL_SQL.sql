@@ -152,5 +152,30 @@ drop procedure proc;
 drop function fun;
 
 
+--trigger
+SET SERVEROUTPUT ON
+CREATE OR REPLACE TRIGGER trigger1
+AFTER UPDATE ON stu_info
+FOR EACH ROW
+ENABLE
+DECLARE
+  v_roll stu_info.roll%TYPE;
+BEGIN
+  IF :OLD.boarder <> :NEW.boarder THEN
+    v_roll := :NEW.roll;
+
+    UPDATE dues
+    SET boarder = :NEW.boarder
+    WHERE roll = v_roll;
+
+    UPDATE supply_complaints
+    SET boarder = :NEW.boarder
+    WHERE roll = v_roll;
+  END IF;
+END;
+/
+
+
+
 
 
