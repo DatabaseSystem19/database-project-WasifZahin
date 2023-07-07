@@ -152,7 +152,7 @@ drop procedure proc;
 drop function fun;
 
 
---trigger
+--trigger1 (update trigger)
 SET SERVEROUTPUT ON
 CREATE OR REPLACE TRIGGER trigger1
 AFTER UPDATE ON stu_info
@@ -175,6 +175,15 @@ BEGIN
 END;
 /
 
+--trigger2 (insert trigger)
+CREATE OR REPLACE TRIGGER trigger2
+AFTER INSERT ON stu_info
+FOR EACH ROW
+BEGIN
+  INSERT INTO dues (Stu_Name, Roll, Boarder)
+  VALUES (:NEW.Stu_Name, :NEW.Roll, :NEW.Boarder);
+END;
+/
 
 
 
